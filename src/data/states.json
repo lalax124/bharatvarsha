@@ -1,0 +1,145 @@
+{
+  "rajasthan": {
+    "name": "Rajasthan",
+    "capital": "Jaipur",
+
+    "climate": {
+      "type": "Hot and dry",
+      "description": "Rajasthan has a predominantly arid and semi-arid climate."
+    },
+
+    "clothing": {
+      "description": "Traditional clothing includes ghagra-choli, odhni and traditional turbans.",
+      "climate_connection": "Loose and lightweight clothing is suitable for the hot climate.",
+
+      "photos": [
+        {
+          "title": "Traditional Rajasthani Clothing",
+          "url": "https://example.com/rajasthan-clothing.jpg",
+          "source": "Wikimedia Commons"
+        }
+      ],
+
+      "audio": [
+        {
+          "title": "Rajasthani Folk Music",
+          "url": "https://example.com/rajasthani-folk.mp3",
+          "source": "Wikimedia Commons"
+        }
+      ],
+
+      "videos": [
+        {
+          "title": "Traditional Rajasthani Clothing",
+          "youtubeId": "VIDEO_ID_HERE",
+          "url": "https://www.youtube.com/watch?v=VIDEO_ID_HERE"
+        }
+      ]
+    },
+
+    "food": [
+      {
+        "name": "Dal Baati Churma",
+        "description": "A traditional Rajasthani dish.",
+
+        "photos": [
+          {
+            "url": "https://example.com/dal-baati.jpg",
+            "source": "Wikimedia Commons"
+          }
+        ],
+
+        "videos": [
+          {
+            "title": "How Dal Baati Churma is made",
+            "youtubeId": "VIDEO_ID_HERE",
+            "url": "https://www.youtube.com/watch?v=VIDEO_ID_HERE"
+          }
+        ]
+      },
+
+      {
+        "name": "Gatte ki Sabzi"
+      },
+
+      {
+        "name": "Ker Sangri"
+      }
+    ],
+
+    "crafts": [
+      {
+        "name": "Blue Pottery",
+        "description": "A traditional craft associated with Jaipur.",
+
+        "photos": [
+          {
+            "url": "https://example.com/blue-pottery.jpg",
+            "source": "Wikimedia Commons"
+          }
+        ],
+
+        "videos": [
+          {
+            "title": "Blue Pottery Making Process",
+            "youtubeId": "VIDEO_ID_HERE",
+            "url": "https://www.youtube.com/watch?v=VIDEO_ID_HERE"
+          }
+        ]
+      }
+    ],
+
+    "architecture": {
+      "description": "Rajasthan is known for forts, palaces and havelis.",
+
+      "photos": [
+        {
+          "title": "Rajasthani Architecture",
+          "url": "https://example.com/rajasthan-fort.jpg",
+          "source": "Wikimedia Commons"
+        }
+      ],
+
+      "videos": [
+        {
+          "title": "Architecture of Rajasthan",
+          "youtubeId": "VIDEO_ID_HERE",
+          "url": "https://www.youtube.com/watch?v=VIDEO_ID_HERE"
+        }
+      ]
+    },
+
+    "transportation": [
+      "Buses",
+      "Trains",
+      "Auto-rickshaws",
+      "Camels in desert regions"
+    ],
+
+    "music": [
+      {
+        "name": "Rajasthani Folk Music",
+
+        "audio": [
+          {
+            "title": "Rajasthani Folk Performance",
+            "url": "https://example.com/folk-music.mp3",
+            "source": "Wikimedia Commons"
+          }
+        ],
+
+        "videos": [
+          {
+            "title": "Rajasthani Folk Performance",
+            "youtubeId": "VIDEO_ID_HERE",
+            "url": "https://www.youtube.com/watch?v=VIDEO_ID_HERE"
+          }
+        ]
+      }
+    ],
+
+    "beliefs": {
+      "description": "Rajasthan has diverse religious and folk traditions."
+    }
+  }
+}
