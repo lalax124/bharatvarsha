@@ -8,40 +8,63 @@ const {
 
 
 async function chat(req, res) {
+
     try {
-        const { state, question } = req.body;
+
+        const {
+            state,
+            question,
+            history
+        } = req.body;
+
 
         if (!state || !question) {
+
             return res.status(400).json({
                 error: "State and question are required"
             });
+
         }
+
 
         const stateData = states[state.toLowerCase()];
 
+
         if (!stateData) {
+
             return res.status(404).json({
                 error: "State not found"
             });
+
         }
+
 
         const answer = await askHeritageAI(
             stateData,
-            question
+            question,
+            history || []
         );
 
+
         res.json({
+
             state: stateData.name,
+
             question: question,
+
             answer: answer
+
         });
 
+
     } catch (error) {
-        console.error(error);
+
+        console.error("AI ERROR:", error);
 
         res.status(500).json({
             error: "AI service failed"
         });
+
     }
 }
 
@@ -162,11 +185,42 @@ async function journey(req, res) {
         });
     }
 }
+function suggestions(req, res) {
+
+    const { state } = req.params;
+
+    const stateData = states[state.toLowerCase()];
+
+    if (!stateData) {
+
+        return res.status(404).json({
+            error: "State not found"
+        });
+
+    }
+
+    res.json({
+
+        state: stateData.name,
+
+        suggestions: [
+            `What is ${stateData.name} famous for?`,
+            "How does the climate influence traditional clothing?",
+            "What are the most important traditional foods?",
+            "What traditional arts and crafts are found here?",
+            "Tell me about the architecture.",
+            "What music and dances are traditionally associated with this state?",
+            "Tell me about its traditional beliefs and festivals."
+        ]
+
+    });
+}
 
 
 module.exports = {
     chat,
     explain,
     compare,
-    journey
+    journey,
+    suggestions
 };

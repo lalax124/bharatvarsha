@@ -4,7 +4,8 @@ const {
     chat,
     explain,
     compare,
-    journey
+    journey,
+    suggestions
 } = require("../controllers/aicontrollers");
 
 const router = express.Router();
@@ -16,5 +17,6 @@ router.post("/explain", explain);
 router.post("/compare", compare);
 
 router.post("/journey", journey);
+router.get("/suggestions/:state", suggestions);
 
 module.exports = router;
