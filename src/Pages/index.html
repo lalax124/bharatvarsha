@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Heritage AI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5ebdd;
+            color: #29251f;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 950px;
+            margin: 40px auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-family: Georgia, serif;
+            color: #6b3e26;
+            font-size: 38px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #6b6259;
+            font-size: 16px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        select {
+            flex: 1;
+            min-width: 200px;
+            padding: 13px;
+            border: 1px solid #ba986e;
+            border-radius: 10px;
+            background: #ba945a;
+            font-size: 15px;
+            color: #29251f;
+            outline: none;
+        }
+
+        .chat-box {
+            background: #4c3d26;
+            border-radius: 15px;
+            min-height: 500px;
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 25px;
+            box-shadow: 0 4px 18px rgba(70, 45, 25, 0.08);
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message.user {
+            align-items: flex-end;
+        }
+
+        .message.ai {
+            align-items: flex-start;
+        }
+
+        .message-name {
+            font-size: 13px;
+            font-weight: bold;
+            color: #8a6348;
+            margin-bottom: 5px;
+        }
+
+        .message-content {
+            max-width: 80%;
+            padding: 14px 17px;
+            border-radius: 14px;
+            line-height: 1.6;
+            font-size: 15px;
+            white-space: pre-wrap;
+        }
+
+        .user .message-content {
+            background: #6b3e26;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .ai .message-content {
+            background: #f1e5d5;
+            color: #29251f;
+            border-bottom-left-radius: 4px;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        textarea {
+            flex: 1;
+            resize: none;
+            min-height: 55px;
+            max-height: 130px;
+            padding: 15px;
+            border: 1px solid #d7c4ad;
+            border-radius: 12px;
+            background: #fff9f0;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            outline: none;
+        }
+
+        textarea:focus,
+        select:focus {
+            border-color: #a65f32;
+        }
+
+        button {
+            border: none;
+            border-radius: 12px;
+            padding: 0 18px;
+            background: #6b3e26;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #8a4d2e;
+        }
+
+        .voice-btn {
+            background: #a65f32;
+            min-width: 55px;
+        }
+
+        .stop-btn {
+            background: #8b3a2b;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 12px;
+            color: #806e60;
+            font-size: 13px;
+            min-height: 20px;
+        }
+
+        .welcome {
+            text-align: center;
+            padding: 80px 20px;
+            color: #806e60;
+        }
+
+        .welcome h2 {
+            color: #6b3e26;
+            font-family: Georgia, serif;
+            margin-bottom: 10px;
+        }
+
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .suggestion {
+            background: #f5ebdd;
+            color: #6b3e26;
+            border: 1px solid #d7c4ad;
+            padding: 9px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .suggestion:hover {
+            background: #ead8c2;
+        }
+
+        @media (max-width: 650px) {
+            .container {
+                width: 95%;
+                margin: 20px auto;
+            }
+
+            .header h1 {
+                font-size: 30px;
+            }
+
+            .chat-box {
+                min-height: 450px;
+                padding: 15px;
+            }
+
+            .message-content {
+                max-width: 90%;
+            }
+
+            .input-area {
+                flex-wrap: wrap;
+            }
+
+            textarea {
+                width: 100%;
+                flex-basis: 100%;
+            }
+
+            .input-area button {
+                height: 48px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Heritage AI</h1>
+        <p>Explore India's culture through conversation</p>
+    </div>
+
+    <div class="controls">
+
+        <select id="stateSelect">
+            <option value="">Select a state</option>
+        </select>
+
+        <select id="languageSelect">
+            <option value="en">English</option>
+            <option value="hi">Hindi</option>
+        </select>
+
+    </div>
+
+    <div class="chat-box" id="chatBox">
+
+        <div class="welcome">
+            <h2>Welcome to Heritage AI</h2>
+            <p>
+                Choose a state and ask me anything about its culture,
+                food, clothing, crafts, traditions, places and stories.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="input-area">
+
+        <textarea
+            id="questionInput"
+            placeholder="Ask something about the heritage..."
+        ></textarea>
+
+        <button id="voiceBtn" class="voice-btn">
+            🎤
+        </button>
+
+        <button id="sendBtn">
+            Ask
+        </button>
+
+        <button id="stopBtn" class="stop-btn">
+            Stop
+        </button>
+
+    </div>
+
+    <div class="status" id="statusText">
+        Select a state to begin.
+    </div>
+
+</div>
+
+
+<script>
+
+const API_URL = "http://localhost:5000";
+
+const stateSelect = document.getElementById("stateSelect");
+const languageSelect = document.getElementById("languageSelect");
+const questionInput = document.getElementById("questionInput");
+const sendBtn = document.getElementById("sendBtn");
+const voiceBtn = document.getElementById("voiceBtn");
+const stopBtn = document.getElementById("stopBtn");
+const chatBox = document.getElementById("chatBox");
+const statusText = document.getElementById("statusText");
+
+
+// ------------------------------------
+// CONVERSATION HISTORY
+// ------------------------------------
+
+let conversationHistory = [];
+
+
+// ------------------------------------
+// LOAD STATES
+// ------------------------------------
+
+async function loadStates() {
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/states`
+        );
+
+        const states = await response.json();
+
+        states.forEach(state => {
+
+            const option = document.createElement("option");
+
+            option.value = state.id;
+            option.textContent = state.name;
+
+            stateSelect.appendChild(option);
+
+        });
+
+        statusText.textContent =
+            "Choose a state and start exploring.";
+
+    } catch (error) {
+
+        console.error(error);
+
+        statusText.textContent =
+            "Could not connect to the Heritage server.";
+
+    }
+}
+
+loadStates();
+
+
+// ------------------------------------
+// ADD MESSAGE
+// ------------------------------------
+
+function addMessage(sender, text, type) {
+
+    const welcome = document.querySelector(".welcome");
+
+    if (welcome) {
+        welcome.remove();
+    }
+
+    const message = document.createElement("div");
+
+    message.className = `message ${type}`;
+
+    const name = document.createElement("div");
+
+    name.className = "message-name";
+    name.textContent = sender;
+
+    const content = document.createElement("div");
+
+    content.className = "message-content";
+
+    // textContent keeps the AI output safe
+    // and prevents Markdown/HTML from appearing as formatting.
+    content.textContent = cleanAnswer(text);
+
+    message.appendChild(name);
+    message.appendChild(content);
+
+    chatBox.appendChild(message);
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+
+// ------------------------------------
+// CLEAN AI RESPONSE
+// ------------------------------------
+
+function cleanAnswer(text) {
+
+    if (!text) {
+        return "";
+    }
+
+    return text
+        .replace(/^#{1,6}\s*/gm, "")
+        .replace(/\*\*/g, "")
+        .replace(/\*/g, "")
+        .replace(/^[-•]\s*/gm, "")
+        .replace(/^---+$/gm, "")
+        .replace(/[🌿✨🏛️🎉🌶️🪔🎭🎨]/g, "")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+}
+
+
+// ------------------------------------
+// ASK AI
+// ------------------------------------
+
+async function askAI(question) {
+
+    const state = stateSelect.value;
+    const language = languageSelect.value;
+
+    if (!state) {
+
+        statusText.textContent =
+            "Please select a state first.";
+
+        return;
+    }
+
+    if (!question.trim()) {
+
+        statusText.textContent =
+            "Please ask a question.";
+
+        return;
+    }
+
+    addMessage(
+        "You",
+        question,
+        "user"
+    );
+
+    questionInput.value = "";
+
+    statusText.textContent =
+        "Heritage AI is thinking...";
+
+    sendBtn.disabled = true;
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/ai/chat`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    state: state,
+
+                    question: question,
+
+                    language: language,
+
+                    history: conversationHistory
+
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error || "AI request failed"
+            );
+
+        }
+
+        const answer = cleanAnswer(data.answer);
+
+        addMessage(
+            "Heritage AI",
+            answer,
+            "ai"
+        );
+        
+
+
+
+        // --------------------------------
+        // SAVE CONVERSATION
+        // --------------------------------
+
+        conversationHistory.push({
+
+            role: "user",
+
+            content: question
+
+        });
+
+        conversationHistory.push({
+
+            role: "assistant",
+
+            content: answer
+
+        });
+
+
+        // Keep history from becoming too large
+        if (conversationHistory.length > 12) {
+
+            conversationHistory =
+                conversationHistory.slice(-12);
+
+        }
+
+
+        statusText.textContent =
+            "Heritage AI answered.";
+
+        speakAnswer(
+            answer,
+            language
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        addMessage(
+            "Error",
+            "I couldn't connect to Heritage AI. Please make sure the Node.js server is running.",
+            "ai"
+        );
+
+        statusText.textContent =
+            "Something went wrong.";
+
+    } finally {
+
+        sendBtn.disabled = false;
+
+    }
+}
+
+
+// ------------------------------------
+// SEND BUTTON
+// ------------------------------------
+
+sendBtn.addEventListener(
+    "click",
+    () => {
+
+        askAI(
+            questionInput.value
+        );
+
+    }
+);
+
+
+// ------------------------------------
+// ENTER TO SEND
+// ------------------------------------
+
+questionInput.addEventListener(
+    "keydown",
+    (event) => {
+
+        if (
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
+
+            event.preventDefault();
+
+            askAI(
+                questionInput.value
+            );
+
+        }
+
+    }
+);
+
+
+// ------------------------------------
+// TEXT TO SPEECH
+// ------------------------------------
+
+function speakAnswer(text, language) {
+
+    if (!("speechSynthesis" in window)) {
+        statusText.textContent = "Voice is not supported.";
+        return;
+    }
+
+    window.speechSynthesis.cancel();
+
+    const voices = window.speechSynthesis.getVoices();
+
+    console.log("Available voices:", voices);
+
+    let selectedVoice = null;
+
+    if (language === "hi") {
+
+        // Find an actual Hindi voice
+        selectedVoice = voices.find(voice =>
+            voice.lang.toLowerCase() === "hi-in"
+        );
+
+        // Fallback: any Hindi voice
+        if (!selectedVoice) {
+            selectedVoice = voices.find(voice =>
+                voice.lang.toLowerCase().startsWith("hi")
+            );
+        }
+
+    } else {
+
+        // English voice
+        selectedVoice = voices.find(voice =>
+            voice.lang.toLowerCase() === "en-in"
+        );
+
+        if (!selectedVoice) {
+            selectedVoice = voices.find(voice =>
+                voice.lang.toLowerCase().startsWith("en")
+            );
+        }
+    }
+
+    // IMPORTANT
+    if (language === "hi" && !selectedVoice) {
+
+        console.warn("No Hindi voice found.");
+
+        statusText.textContent =
+            "No Hindi voice is installed in your browser.";
+
+        return;
+    }
+
+    const speech =
+        new SpeechSynthesisUtterance(text);
+
+    speech.voice = selectedVoice;
+
+    speech.lang =
+        selectedVoice.lang;
+
+    speech.rate = 0.9;
+    speech.pitch = 1;
+
+    speech.onstart = () => {
+        statusText.textContent =
+            "Heritage AI is speaking...";
+    };
+
+    speech.onend = () => {
+        statusText.textContent =
+            "You can ask another question.";
+    };
+
+    speech.onerror = (event) => {
+
+        console.error(
+            "Speech error:",
+            event
+        );
+
+        statusText.textContent =
+            "Voice playback failed.";
+    };
+
+    window.speechSynthesis.speak(speech);
+}
+window.speechSynthesis.onvoiceschanged = () => {
+
+    const voices =
+        window.speechSynthesis.getVoices();
+
+    console.log("---- AVAILABLE VOICES ----");
+
+    voices.forEach(voice => {
+
+        console.log(
+            voice.name,
+            "→",
+            voice.lang
+        );
+
+    });
+
+};
+
+// ------------------------------------
+// STOP VOICE
+// ------------------------------------
+
+stopBtn.addEventListener(
+    "click",
+    () => {
+
+        window.speechSynthesis.cancel();
+
+        statusText.textContent =
+            "Voice stopped.";
+
+    }
+);
+
+
+// ------------------------------------
+// SPEECH RECOGNITION
+// ------------------------------------
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+let recognition = null;
+
+if (SpeechRecognition) {
+
+    recognition =
+        new SpeechRecognition();
+
+    recognition.continuous = false;
+
+    recognition.interimResults = false;
+
+
+    recognition.onstart = () => {
+
+        statusText.textContent =
+            "Listening... Speak now.";
+
+        voiceBtn.textContent =
+            "Listening";
+
+    };
+
+
+    recognition.onresult = (event) => {
+
+        const spokenText =
+            event.results[0][0].transcript;
+
+        questionInput.value =
+            spokenText;
+
+        statusText.textContent =
+            "I heard you. Asking Heritage AI...";
+
+        askAI(spokenText);
+
+    };
+
+
+    recognition.onerror = (event) => {
+
+        console.error(
+            "Voice error:",
+            event.error
+        );
+
+        statusText.textContent =
+            "Voice error: " + event.error;
+
+    };
+
+
+    recognition.onend = () => {
+
+        voiceBtn.textContent =
+            "🎤";
+
+    };
+
+
+    voiceBtn.addEventListener(
+        "click",
+        () => {
+
+            const language =
+                languageSelect.value;
+
+            if (language === "hi") {
+
+                recognition.lang =
+                    "hi-IN";
+
+            } else {
+
+                recognition.lang =
+                    "en-IN";
+
+            }
+
+            try {
+
+                recognition.start();
+
+            } catch (error) {
+
+                console.log(error);
+
+            }
+
+        }
+    );
+
+} else {
+
+    voiceBtn.disabled = true;
+
+    statusText.textContent =
+        "Voice recognition is not supported in this browser.";
+
+}
+
+
+// ------------------------------------
+// CHANGE STATE
+// ------------------------------------
+
+stateSelect.addEventListener(
+    "change",
+    () => {
+
+        conversationHistory = [];
+
+        chatBox.innerHTML = "";
+
+        const stateName =
+            stateSelect.options[
+                stateSelect.selectedIndex
+            ].textContent;
+
+        if (!stateSelect.value) {
+
+            statusText.textContent =
+                "Select a state to begin.";
+
+            return;
+
+        }
+
+        const welcome =
+            document.createElement("div");
+
+        welcome.className =
+            "welcome";
+
+        welcome.innerHTML = `
+            <h2>${stateName}</h2>
+            <p>
+                Ask me about the culture, food,
+                clothing, crafts, traditions,
+                places, music or stories of ${stateName}.
+            </p>
+        `;
+
+        chatBox.appendChild(welcome);
+
+        statusText.textContent =
+            `${stateName} selected. Ask me anything.`;
+
+    }
+);
+
+
+// ------------------------------------
+// CHANGE LANGUAGE
+// ------------------------------------
+
+languageSelect.addEventListener(
+    "change",
+    () => {
+
+        const language =
+            languageSelect.value;
+
+        if (language === "hi") {
+
+            questionInput.placeholder =
+                "विरासत के बारे में कुछ पूछें...";
+
+        } else {
+
+            questionInput.placeholder =
+                "Ask something about the heritage...";
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
