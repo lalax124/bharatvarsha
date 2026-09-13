@@ -16,7 +16,10 @@ app.get("/", (req, res) => {
         message: "Indian Heritage API is running!"
     });
 });
-
+// server.js me yeh add karein
+app.get('/ai-guide', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html')); // Yahan apne AI surface wali file ka path dein
+});
 app.use("/api/states", stateRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/voiceroute", voiceRoutes);
