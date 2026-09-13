@@ -82,10 +82,7 @@ function Home() {
             Map
           </a>
 
-          <Link to="/index">
-            AI Guide
-            
-          </Link>
+          <a href="/ai-guide">AI Guide</a>
 
           <a href="#about">
             About
