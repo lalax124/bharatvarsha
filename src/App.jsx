@@ -82,7 +82,7 @@ function Home() {
             Map
           </a>
 
-          <Link to="/heritage-frontend/index">
+          <Link to="/index">
             AI Guide
             
           </Link>
@@ -830,6 +830,10 @@ function App() {
           />
 
         </Routes>
+        <Route 
+          path ="/index"
+          element={<AI Guide />}
+          />
 
       </PageTransition>
 
