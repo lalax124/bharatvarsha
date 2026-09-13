@@ -82,9 +82,10 @@ function Home() {
             Map
           </a>
 
-          <a href="#ai">
+          <Link to="/heritage-frontend/index">
             AI Guide
-          </a>
+            
+          </Link>
 
           <a href="#about">
             About
