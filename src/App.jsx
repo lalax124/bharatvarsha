@@ -22,7 +22,36 @@ import "./App.css";
 
 function Home() {
   const [selectedState, setSelectedState] = useState("");
-  const statesList = stateData ? Object.keys(stateData) : [];
+  // 1. Store state.json backend data here
+  const [stateData, setStateData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // 2. Fetch state.json from backend API on component mount
+  useEffect(() => {
+    // Replace '/api/states' with your actual backend URL or endpoint
+    // e.g. 'http://localhost:5000/api/state.json' or 'https://your-backend.vercel.app/api/states'
+    fetch("/api/states") 
+      .then((res) => res.json())
+      .then((data) => {
+        setStateData(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching state data from backend:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  // 3. Format state items safely whether backend sends Object or Array
+  const statesList = Array.isArray(stateData)
+    ? stateData
+    : stateData
+    ? Object.keys(stateData).map((key) => ({
+        id: key,
+        name: stateData[key].name || key,
+        ...stateData[key],
+      }))
+    : [];
   return (
     <div className="website">
       {/* =====================================================
@@ -298,55 +327,7 @@ function Home() {
     </div>
   );
 }
-{/* MAP & STATE INFORMATION SECTION */}
-      <section id="map" className="map-section" style={{ padding: "4rem 2rem" }}>
-        <h2>Explore States of India</h2>
 
-        {/* State Selection Dropdown */}
-        <div style={{ margin: "1.5rem 0" }}>
-          <label htmlFor="state-select" style={{ marginRight: "10px" }}>
-            Select State:
-          </label>
-          <select
-            id="state-select"
-            value={selectedState}
-            onChange={(e) => setSelectedState(e.target.value)}
-            style={{ padding: "8px 12px", borderRadius: "4px" }}
-          >
-            <option value="">-- Choose State --</option>
-            {statesList.map((stateKey) => (
-              <option key={stateKey} value={stateKey}>
-                {stateData[stateKey]?.name || stateKey}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Selected State Details Card */}
-        {selectedState && stateData[selectedState] ? (
-          <div
-            className="state-info-card"
-            style={{
-              background: "#1a1a1a",
-              padding: "1.5rem",
-              borderRadius: "8px",
-              marginTop: "1rem",
-              color: "#fff",
-            }}
-          >
-            <h3>{stateData[selectedState].name || selectedState}</h3>
-            <p>
-              {stateData[selectedState].description ||
-                stateData[selectedState].info ||
-                "No details available."}
-            </p>
-          </div>
-        ) : (
-          <p style={{ opacity: 0.7 }}>
-            Select a state from the dropdown menu above or click on the map.
-          </p>
-        )}
-      </section>
 /* =========================================================
    PAGE TRANSITION
 ========================================================= */
