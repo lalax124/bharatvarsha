@@ -43,7 +43,7 @@ function Home() {
           <Link to="/arts-crafts">Arts & Crafts</Link>
           <Link to="/festivals">Festivals</Link>
           <Link to="/culture">Food & Clothing</Link>
-          <Link to="/map">Map</Link>
+          <Link to="/IndiaMap">Map</Link>
           <Link to="/ai-guide">AI Guide</Link>
           <a href="#about">About</a>
         </nav>
