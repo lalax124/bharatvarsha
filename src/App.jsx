@@ -7,6 +7,7 @@ import {
   useLocation,
 } from "react-router-dom";
 
+import IndiaMap from "./Pages/IndiaMap";
 import AncientTemples from "./Pages/AncientTemples";
 import CultureStates from "./Pages/CultureStates";
 import WestBengal from "./Pages/WestBengal";
@@ -42,7 +43,7 @@ function Home() {
           <Link to="/arts-crafts">Arts & Crafts</Link>
           <Link to="/festivals">Festivals</Link>
           <Link to="/culture">Food & Clothing</Link>
-          <a href="#map">Map</a>
+          <Link to="/map">Map</Link>
           <Link to="/ai-guide">AI Guide</Link>
           <a href="#about">About</a>
         </nav>
@@ -341,6 +342,9 @@ function App() {
         <Routes>
           {/* HOME */}
           <Route path="/" element={<Home />} />
+
+          {/* INDIA MAP */}
+          <Route path="/map" element={<IndiaMap />} />
 
           {/* TEMPLES */}
           <Route path="/temples" element={<AncientTemples />} />
