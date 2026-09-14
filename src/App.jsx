@@ -14,15 +14,15 @@ import WestBengal from "./Pages/WestBengal";
 import MacherJhol from "./Pages/MacherJhol";
 import ArtsCraft from "./Pages/ArtsCraft";
 import Festivals from "./Pages/Festivals";
-import AIGuide from "./Pages/AIGuide";
-
-import "./App.css";
 import stateData from '../data/state.json';
+import "./App.css";
 /* =========================================================
    HOME PAGE
 ========================================================= */
 
 function Home() {
+  const [selectedState, setSelectedState] = useState("");
+  const statesList = stateData ? Object.keys(stateData) : [];
   return (
     <div className="website">
       {/* =====================================================
@@ -298,7 +298,55 @@ function Home() {
     </div>
   );
 }
+{/* MAP & STATE INFORMATION SECTION */}
+      <section id="map" className="map-section" style={{ padding: "4rem 2rem" }}>
+        <h2>Explore States of India</h2>
 
+        {/* State Selection Dropdown */}
+        <div style={{ margin: "1.5rem 0" }}>
+          <label htmlFor="state-select" style={{ marginRight: "10px" }}>
+            Select State:
+          </label>
+          <select
+            id="state-select"
+            value={selectedState}
+            onChange={(e) => setSelectedState(e.target.value)}
+            style={{ padding: "8px 12px", borderRadius: "4px" }}
+          >
+            <option value="">-- Choose State --</option>
+            {statesList.map((stateKey) => (
+              <option key={stateKey} value={stateKey}>
+                {stateData[stateKey]?.name || stateKey}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Selected State Details Card */}
+        {selectedState && stateData[selectedState] ? (
+          <div
+            className="state-info-card"
+            style={{
+              background: "#1a1a1a",
+              padding: "1.5rem",
+              borderRadius: "8px",
+              marginTop: "1rem",
+              color: "#fff",
+            }}
+          >
+            <h3>{stateData[selectedState].name || selectedState}</h3>
+            <p>
+              {stateData[selectedState].description ||
+                stateData[selectedState].info ||
+                "No details available."}
+            </p>
+          </div>
+        ) : (
+          <p style={{ opacity: 0.7 }}>
+            Select a state from the dropdown menu above or click on the map.
+          </p>
+        )}
+      </section>
 /* =========================================================
    PAGE TRANSITION
 ========================================================= */
