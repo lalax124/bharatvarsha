@@ -14,7 +14,7 @@ import WestBengal from "./Pages/WestBengal";
 import MacherJhol from "./Pages/MacherJhol";
 import ArtsCraft from "./Pages/ArtsCraft";
 import Festivals from "./Pages/Festivals";
-import state from '../data/states.json';
+
 import "./App.css";
 /* =========================================================
    HOME PAGE
@@ -22,36 +22,8 @@ import "./App.css";
 
 function Home() {
   const [selectedState, setSelectedState] = useState("");
-  // 1. Store state.json backend data here
-  const [stateData, setStateData] = useState(null);
-  const [loading, setLoading] = useState(true);
 
-  // 2. Fetch state.json from backend API on component mount
-  useEffect(() => {
-    // Replace '/api/states' with your actual backend URL or endpoint
-    // e.g. 'http://localhost:5000/api/state.json' or 'https://your-backend.vercel.app/api/states'
-    fetch("/api/states") 
-      .then((res) => res.json())
-      .then((data) => {
-        setStateData(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching state data from backend:", err);
-        setLoading(false);
-      });
-  }, []);
 
-  // 3. Format state items safely whether backend sends Object or Array
-  const statesList = Array.isArray(stateData)
-    ? stateData
-    : stateData
-    ? Object.keys(stateData).map((key) => ({
-        id: key,
-        name: stateData[key].name || key,
-        ...stateData[key],
-      }))
-    : [];
   return (
     <div className="website">
       {/* =====================================================
