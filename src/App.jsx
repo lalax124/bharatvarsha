@@ -15,7 +15,7 @@ import ArtsCraft from "./Pages/ArtsCraft";
 import Festivals from "./Pages/Festivals";
 import AIGuide from "./Pages/AIGuide";
 
-import "./styles/App.css";
+import "./App.css";
 
 /* =========================================================
    HOME PAGE

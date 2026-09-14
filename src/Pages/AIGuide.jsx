@@ -1,11 +1,19 @@
-import React from 'react';
-import '../styles/AIGuide.css';
+import React, { useEffect, useState } from 'react';
+import '../Pages/aifrontend.html';
 
 function AIGuide() {
   return (
-    <div className="ai-guide-container">
-      <h1>AI Guide</h1>
-      <p>Welcome to the AI Guide section. This page will help you explore India's cultural heritage using AI-powered recommendations.</p>
+    <div style={{ width: '100%', height: '100vh' }}>
+      <iframe
+        src="/src/Pages/aifrontend.html"
+        style={{
+          width: '100%',
+          height: '100%',
+          border: 'none',
+          borderRadius: '0',
+        }}
+        title="Heritage AI Guide"
+      />
     </div>
   );
 }
