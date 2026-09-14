@@ -1,0 +1,31 @@
+/* Import existing styles if available */
+/* This is where all App.css content should go */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.website {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Page transition animations */
+.page-wrapper {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.page-wrapper.page-visible {
+  opacity: 1;
+}
+
+.page-wrapper.page-hidden {
+  opacity: 0;
+}
