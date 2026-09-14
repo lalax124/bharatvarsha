@@ -14,7 +14,7 @@ import WestBengal from "./Pages/WestBengal";
 import MacherJhol from "./Pages/MacherJhol";
 import ArtsCraft from "./Pages/ArtsCraft";
 import Festivals from "./Pages/Festivals";
-import stateData from '../data/state.json';
+import state from '../data/state.json';
 import "./App.css";
 /* =========================================================
    HOME PAGE
