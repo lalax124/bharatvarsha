@@ -17,7 +17,7 @@ import Festivals from "./Pages/Festivals";
 import AIGuide from "./Pages/AIGuide";
 
 import "./App.css";
-
+import stateData from '../data/state.json';
 /* =========================================================
    HOME PAGE
 ========================================================= */
